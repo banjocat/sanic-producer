@@ -1,0 +1,29 @@
+version: '2'
+services:
+    sanic:
+        build: ./sanic/.
+        image: banjocat/sanic-producer
+        volumes:
+            - "./sanic/.:/app"
+        ports:
+            - "4000:8000"
+        environment:
+            KAFKA_HOST: kafka
+        depends_on:
+            - kafka
+    zookeeper:
+        image: wurstmeister/zookeeper
+    kafka:
+        image: wurstmeister/kafka
+        environment:
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+            KAFKA_ADVERTISED_PORT: 9092
+        depends_on:
+            - zookeeper
+    kafkamanager:
+        image: sheepkiller/kafka-manager
+        environment:
+            ZK_HOSTS: zookeeper:2181
+        ports:
+            - "9000:9000"
+
