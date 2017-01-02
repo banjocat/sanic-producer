@@ -6,7 +6,7 @@ services:
         volumes:
             - "./sanic/.:/app"
         environment:
-            KAFKA_HOST: kafka1,kafka2,kafka3
+            KAFKA_HOST: kafka1
         depends_on:
             - kafka1
         ports:
@@ -33,7 +33,7 @@ services:
         volumes:
             - "./sanic/.:/app"
         environment:
-            KAFKA_HOST: kafka1,kafka2,kafka3
+            KAFKA_HOST: kafka1
         depends_on:
             - kafka1
         ports:
@@ -44,25 +44,25 @@ services:
         volumes:
             - "./sanic/.:/app"
         environment:
-            KAFKA_HOST: kafka1,kafka2,kafka3
+            KAFKA_HOST: kafka1
         depends_on:
             - kafka1
         ports:
             - "4002:8000"
-    kafka2:
-        image: wurstmeister/kafka
-        environment:
-            KAFKA_ADVERTISED_HOST_NAME: kafka2
-            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-            KAFKA_ADVERTISED_PORT: 9092
-        depends_on:
-            - zookeeper
-    kafka3:
-        image: wurstmeister/kafka
-        environment:
-            KAFKA_ADVERTISED_HOST_NAME: kafka3
-            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-            KAFKA_ADVERTISED_PORT: 9092
-        depends_on:
-            - zookeeper
-
+              #    kafka2:
+              #        image: wurstmeister/kafka
+              #        environment:
+              #            KAFKA_ADVERTISED_HOST_NAME: kafka2
+              #            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+              #            KAFKA_ADVERTISED_PORT: 9092
+              #        depends_on:
+              #            - zookeeper
+              #    kafka3:
+              #        image: wurstmeister/kafka
+              #        environment:
+              #            KAFKA_ADVERTISED_HOST_NAME: kafka3
+              #            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+              #            KAFKA_ADVERTISED_PORT: 9092
+              #        depends_on:
+              #            - zookeeper
+              #
