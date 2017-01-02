@@ -14,9 +14,7 @@ async def index(request):
 
 @app.route('/kafka')
 async def kafka_producer(request):
-    msg = request.body
-    future = producer.send('json', msg)
-    await future
+    await producer.send('json', request.body)
     return json({"message": "Success"})
 
 
