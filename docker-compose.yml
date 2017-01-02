@@ -1,29 +1,68 @@
 version: '2'
 services:
-    sanic:
+    sanic1:
         build: ./sanic/.
         image: banjocat/sanic-producer
         volumes:
             - "./sanic/.:/app"
+        environment:
+            KAFKA_HOST: kafka1,kafka2,kafka3
+        depends_on:
+            - kafka1
         ports:
             - "4000:8000"
-        environment:
-            KAFKA_HOST: kafka
-        depends_on:
-            - kafka
-    zookeeper:
-        image: wurstmeister/zookeeper
-    kafka:
+    kafka1:
         image: wurstmeister/kafka
         environment:
+            KAFKA_ADVERTISED_HOST_NAME: kafka1
             KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
             KAFKA_ADVERTISED_PORT: 9092
         depends_on:
             - zookeeper
+    zookeeper:
+        image: wurstmeister/zookeeper
     kafkamanager:
         image: sheepkiller/kafka-manager
         environment:
             ZK_HOSTS: zookeeper:2181
         ports:
-            - "9000:9000"
+            - "9999:9000"
+    sanic2:
+        build: ./sanic/.
+        image: banjocat/sanic-producer
+        volumes:
+            - "./sanic/.:/app"
+        environment:
+            KAFKA_HOST: kafka1,kafka2,kafka3
+        depends_on:
+            - kafka1
+        ports:
+            - "4001:8000"
+    sanic3:
+        build: ./sanic/.
+        image: banjocat/sanic-producer
+        volumes:
+            - "./sanic/.:/app"
+        environment:
+            KAFKA_HOST: kafka1,kafka2,kafka3
+        depends_on:
+            - kafka1
+        ports:
+            - "4002:8000"
+    kafka2:
+        image: wurstmeister/kafka
+        environment:
+            KAFKA_ADVERTISED_HOST_NAME: kafka2
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+            KAFKA_ADVERTISED_PORT: 9092
+        depends_on:
+            - zookeeper
+    kafka3:
+        image: wurstmeister/kafka
+        environment:
+            KAFKA_ADVERTISED_HOST_NAME: kafka3
+            KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+            KAFKA_ADVERTISED_PORT: 9092
+        depends_on:
+            - zookeeper
 

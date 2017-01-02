@@ -5,10 +5,8 @@ from sanic.response import json
 from kafka import KafkaProducer
 
 app = Sanic()
-kafka_host = os.getenv('KAFKA_HOST')
+kafka_host = os.getenv('KAFKA_HOST').split(',')
 producer = KafkaProducer(bootstrap_servers=kafka_host)
-
-producer.send('restart', b'lol')
 
 @app.route('/')
 async def index(request):
@@ -16,7 +14,6 @@ async def index(request):
 
 @app.route('/kafka')
 async def kafka_producer(request):
-    #future = producer.send('json', b'%s' % request.json)
     msg = request.body
     future = producer.send('json', msg)
     await future
